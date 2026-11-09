@@ -1,6 +1,6 @@
 /** Shared survey definitions (client + Worker) and server-side validation. */
 
-export const COLLECTIUS = ["Llibreries", "Editorials", "Entitats"] as const;
+export const COLLECTIUS = ["Llibreries", "Editorials", "Entitats", "Altres"] as const;
 export type Collectiu = (typeof COLLECTIUS)[number];
 
 export const PARTICIPACIO = [
@@ -196,7 +196,7 @@ export const SECTIONS: readonly SectionDef[] = [
   },
   {
     title: "8 · Activitats annexes",
-    note: "Puntuació de l’1 (poc) al 5 (molt).",
+    note: "Organitzades per les llibreries, editorials i entitats socio-culturals. Puntuació de l’1 (poc) al 5 (molt).",
     matrix: "activitatsAnnexes",
     texts: [{ key: "activitatsAnnexesAltres", label: "Altres aspectes" }],
   },
