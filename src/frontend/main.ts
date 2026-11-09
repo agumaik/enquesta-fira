@@ -4,11 +4,7 @@ import "@fontsource/figtree/600.css";
 import "@fontsource/figtree/700.css";
 import "@fontsource/fraunces/500.css";
 import "@fontsource/fraunces/700.css";
-import {
-  MATRICES,
-  PARTICIPACIO_AMB_ACTIVITATS,
-  TEXT_FIELDS,
-} from "../survey";
+import { MATRICES, TEXT_FIELDS } from "../survey";
 
 declare global {
   interface Window {
@@ -22,12 +18,9 @@ declare global {
 
 const DRAFT_KEY = "enquesta-fira:esborrany";
 const CODE_KEY = "enquesta-fira:codi";
-const ACTIVITATS_GROUP = "activitatsAnnexes";
-const ACTIVITATS_TEXT = "activitatsAnnexesAltres";
 
 const form = document.getElementById("enquesta") as HTMLFormElement;
 const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
-const activitatsBlock = document.getElementById("activitatsAnnexes-block") as HTMLElement;
 
 function renderMatrices() {
   for (const matrix of MATRICES) {
@@ -83,10 +76,6 @@ function setStatus(message: string, kind: "error" | "ok" | "info") {
   if (kind === "ok") box.classList.add("form-status--ok");
 }
 
-function activitatsVisible(): boolean {
-  return PARTICIPACIO_AMB_ACTIVITATS.includes(radioValue("participacio") ?? "");
-}
-
 function collectPayload(): Record<string, unknown> {
   const payload: Record<string, unknown> = {
     collectiu: radioValue("collectiu"),
@@ -96,9 +85,7 @@ function collectPayload(): Record<string, unknown> {
   const participacio = radioValue("participacio");
   if (participacio) payload.participacio = participacio;
 
-  const skipActivitats = !activitatsVisible();
   for (const m of MATRICES) {
-    if (skipActivitats && m.group === ACTIVITATS_GROUP) continue;
     const map: Record<string, string> = {};
     for (const row of m.rows) {
       const v = radioValue(`${m.group}.${row.key}`);
@@ -107,7 +94,6 @@ function collectPayload(): Record<string, unknown> {
     if (Object.keys(map).length) payload[m.group] = map;
   }
   for (const id of TEXT_FIELDS) {
-    if (skipActivitats && id === ACTIVITATS_TEXT) continue;
     const v = textValue(id);
     if (v) payload[id] = v;
   }
@@ -151,18 +137,15 @@ function restoreDraft() {
   }
 }
 
-/* ---------- Progress + conditional section ---------- */
+/* ---------- Progress ---------- */
 
 function refresh() {
-  activitatsBlock.hidden = !activitatsVisible();
-
   const questions: boolean[] = [
     !!radioValue("collectiu"),
     !!textValue("email"),
     !!radioValue("participacio"),
   ];
   for (const m of MATRICES) {
-    if (m.group === ACTIVITATS_GROUP && activitatsBlock.hidden) continue;
     for (const row of m.rows) questions.push(!!radioValue(`${m.group}.${row.key}`));
   }
   const done = questions.filter(Boolean).length;

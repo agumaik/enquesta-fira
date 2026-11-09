@@ -9,12 +9,6 @@ export const PARTICIPACIO = [
   "Organització d’activitats annexes",
 ] as const;
 
-/** Participation values that unlock the "Activitats annexes" section. */
-export const PARTICIPACIO_AMB_ACTIVITATS: readonly string[] = [
-  PARTICIPACIO[1],
-  PARTICIPACIO[2],
-];
-
 const SUFICIENT = ["Suficient", "Insuficient"];
 const CORRECTA = ["Correcta", "Millorable"];
 const SI_NO = ["Sí", "No"];
@@ -132,7 +126,7 @@ export const MATRICES: readonly MatrixDef[] = [
     options: SCALE,
     rows: [
       { key: "interesActivitats", label: "Interès de les activitats als dos escenaris" },
-      { key: "convidats", label: "Convidats d’altres territoris" },
+      { key: "convidats", label: "Participació convidats altres territoris" },
       { key: "afluencia", label: "Afluència de públic" },
       { key: "autors", label: "Participació d’autors / signatures" },
       { key: "promocioEntitat", label: "Importància per a la promoció de l’entitat" },
@@ -180,7 +174,7 @@ export const SECTIONS: readonly SectionDef[] = [
   },
   {
     title: "4 · Objectius generals",
-    note: "Puntuació de l’1 (poc) al 5 (molt).",
+    note: "Valoreu el grau d’assoliment. Puntuació de l’1 (poc) al 5 (molt).",
     matrix: "objectiusGenerals",
     texts: [],
   },
@@ -202,7 +196,7 @@ export const SECTIONS: readonly SectionDef[] = [
   },
   {
     title: "8 · Activitats annexes",
-    note: "Només qui ha organitzat activitats annexes. Puntuació de l’1 (poc) al 5 (molt).",
+    note: "Puntuació de l’1 (poc) al 5 (molt).",
     matrix: "activitatsAnnexes",
     texts: [{ key: "activitatsAnnexesAltres", label: "Altres aspectes" }],
   },
