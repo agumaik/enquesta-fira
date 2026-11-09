@@ -12,12 +12,24 @@
     <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
-      rel="stylesheet"
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ca_ES" />
+    <meta property="og:site_name" content="Fira del Llibre en Català a Terrassa" />
+    <meta property="og:title" content="Enquesta de valoració · IV Edició" />
+    <meta
+      property="og:description"
+      content="Valoreu la IV Edició de la Fira del Llibre en Català a Terrassa i ajudeu-nos a preparar la propera."
     />
+    <meta property="og:image" content="https://enquesta-fira.agumaik.tech/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="noindex" />
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+      async
+      defer
+    ></script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -27,10 +39,10 @@
       <div class="hero__media" aria-hidden="true">
         <img
           class="hero__cartell"
-          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2026/09/00-Cartell-26-din-A1-v4-1.jpg"
+          src="/cartell.jpg"
           alt=""
           width="1200"
-          height="1600"
+          height="1699"
           decoding="async"
           fetchpriority="high"
         />
@@ -39,7 +51,7 @@
       <div class="hero__content">
         <img
           class="hero__logo"
-          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2024/04/Logo_quadrat.png"
+          src="/logo.png"
           alt="Fira del Llibre en Català a Terrassa"
           width="112"
           height="112"
@@ -64,16 +76,26 @@
     </header>
 
     <main>
+      <noscript>
+        <section class="status-banner">
+          <p>Per respondre l’enquesta cal tenir JavaScript activat al navegador.</p>
+        </section>
+      </noscript>
       <section class="status-banner" id="status-banner" hidden>
         <p id="status-message"></p>
       </section>
+
+      <div class="progress" id="progress" aria-hidden="true">
+        <div class="progress__bar" id="progress-bar"></div>
+      </div>
 
       <form id="enquesta" class="survey" novalidate>
         <div class="survey__intro">
           <h2>La vostra valoració</h2>
           <p>
             Els camps amb <span class="req" aria-hidden="true">*</span> són
-            obligatoris. La resta són opcionals.
+            obligatoris. La resta són opcionals. Les respostes es desen
+            automàticament en aquest navegador fins que les envieu.
           </p>
         </div>
 
@@ -234,9 +256,9 @@
           </div>
         </fieldset>
 
-        <fieldset class="block" data-section="activitatsAnnexes">
+        <fieldset class="block" data-section="activitatsAnnexes" id="activitatsAnnexes-block" hidden>
           <legend>8 · Activitats annexes</legend>
-          <p class="block__note">Puntuació de l’1 al 5.</p>
+          <p class="block__note">Puntuació de l’1 (poc) al 5 (molt).</p>
           <div class="matrix" id="activitatsAnnexes-matrix"></div>
           <div class="field">
             <label for="activitatsAnnexesAltres">Altres aspectes</label>
@@ -252,7 +274,7 @@
         <fieldset class="block" data-section="organitzacioDia">
           <legend>9 · Organització del dia de la Fira</legend>
           <p class="block__note">
-            Nota: el temps va tancar al migdia. Valoreu cada aspecte.
+            Nota: la pluja va obligar a tancar al migdia. Valoreu cada aspecte.
           </p>
           <div class="matrix" id="organitzacioDia-matrix"></div>
           <div class="field">
@@ -268,7 +290,7 @@
 
         <fieldset class="block" data-section="funcionament">
           <legend>10 · Funcionament de la jornada</legend>
-          <p class="block__note">Puntuació de l’1 al 5.</p>
+          <p class="block__note">Puntuació de l’1 (poc) al 5 (molt).</p>
           <div class="matrix" id="funcionament-matrix"></div>
           <div class="field">
             <label for="funcionamentSuggeriments">Suggeriments</label>
@@ -345,24 +367,63 @@
                 required
               />
               <span>
-                He llegit i accepto el tractament de les meves dades personals
-                (correu electrònic i respostes de l’enquesta) per part de
-                l’organització de la Fira del Llibre en Català a Terrassa, amb
-                la finalitat exclusiva de recollir valoracions de la IV Edició i
-                millorar les properes edicions. Les dades no es cediran a
-                tercers ni s’usaran amb finalitats comercials. Puc exercir els
-                drets d’accés, rectificació i supressió contactant
-                l’organització a través del web
-                <a
-                  href="https://firallibrecatalaterrassa.cat/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >firallibrecatalaterrassa.cat</a
-                >.
+                He llegit la informació bàsica sobre protecció de dades i accepto
+                el tractament del meu correu electrònic i de les meves respostes
+                per a la finalitat indicada.
               </span>
             </label>
           </div>
+          <table class="privacy">
+            <caption>Informació bàsica sobre protecció de dades</caption>
+            <tbody>
+              <tr>
+                <th scope="row">Responsable</th>
+                <td>
+                  Consell Local de la República de Terrassa (NIF G67588905).
+                  Passeig 22 de Juliol, 690, 08221 Terrassa.
+                  <a href="mailto:info@firallibrecatalaterrassa.cat">info@firallibrecatalaterrassa.cat</a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Finalitat</th>
+                <td>
+                  Recollir la valoració de la IV Edició de la Fira del Llibre en
+                  Català a Terrassa per millorar les properes edicions. El
+                  correu només s’usa per evitar respostes duplicades i, si cal,
+                  aclarir alguna resposta. No s’usa per enviar publicitat.
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Base legal</th>
+                <td>El vostre consentiment (art. 6.1.a del RGPD), que podeu retirar en qualsevol moment.</td>
+              </tr>
+              <tr>
+                <th scope="row">Destinataris</th>
+                <td>
+                  Només la Comissió de Llengua i Cultura del Consell Local de la
+                  República de Terrassa. No es cedeixen a tercers. Les dades
+                  s’allotgen a Cloudflare (encarregat del tractament).
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Conservació</th>
+                <td>Dos anys des de l’enviament; després s’esborren automàticament.</td>
+              </tr>
+              <tr>
+                <th scope="row">Drets</th>
+                <td>
+                  Accés, rectificació, supressió, oposició, limitació i
+                  portabilitat, escrivint a
+                  <a href="mailto:info@firallibrecatalaterrassa.cat">info@firallibrecatalaterrassa.cat</a>.
+                  Podeu presentar una reclamació a l’Autoritat Catalana de
+                  Protecció de Dades (<a href="https://apdcat.gencat.cat/" target="_blank" rel="noopener noreferrer">apdcat.gencat.cat</a>).
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </fieldset>
+
+        <div id="turnstile"></div>
 
         <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>
 
@@ -376,7 +437,7 @@
       <section class="thanks" id="thanks" hidden>
         <img
           class="thanks__logo"
-          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2024/04/Logo_quadrat.png"
+          src="/logo.png"
           alt=""
           width="88"
           height="88"
@@ -400,6 +461,10 @@
       <p>
         IV Edició · Fira del Llibre en Català a Terrassa ·
         <a href="https://firallibrecatalaterrassa.cat/">firallibrecatalaterrassa.cat</a>
+      </p>
+      <p>
+        Responsable: Consell Local de la República de Terrassa ·
+        <a href="mailto:info@firallibrecatalaterrassa.cat">info@firallibrecatalaterrassa.cat</a>
       </p>
     </footer>
 

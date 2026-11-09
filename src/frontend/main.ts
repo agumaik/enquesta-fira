@@ -1,178 +1,37 @@
-type OptionSet = string[];
+import "@fontsource/figtree/400.css";
+import "@fontsource/figtree/500.css";
+import "@fontsource/figtree/600.css";
+import "@fontsource/figtree/700.css";
+import "@fontsource/fraunces/500.css";
+import "@fontsource/fraunces/700.css";
+import {
+  MATRICES,
+  PARTICIPACIO_AMB_ACTIVITATS,
+  TEXT_FIELDS,
+} from "../survey";
 
-type MatrixDef = {
-  containerId: string;
-  groupName: string;
-  options: OptionSet;
-  rows: { key: string; label: string }[];
-};
+declare global {
+  interface Window {
+    turnstile?: {
+      render(el: HTMLElement, opts: Record<string, unknown>): string;
+      execute(id: string): void;
+      reset(id: string): void;
+    };
+  }
+}
 
-const SUFICIENT = ["Suficient", "Insuficient"];
-const CORRECTA = ["Correcta", "Millorable"];
-const SI_NO = ["Sí", "No"];
-const ORGA = ["Molt bé", "Correcte", "S’ha de millorar"];
-const SCALE = ["1", "2", "3", "4", "5"];
+const DRAFT_KEY = "enquesta-fira:esborrany";
+const CODE_KEY = "enquesta-fira:codi";
+const ACTIVITATS_GROUP = "activitatsAnnexes";
+const ACTIVITATS_TEXT = "activitatsAnnexesAltres";
 
-const MATRICES: MatrixDef[] = [
-  {
-    containerId: "difusio-matrix",
-    groupName: "difusio",
-    options: SUFICIENT,
-    rows: [
-      { key: "web", label: "Xarxes · Web" },
-      { key: "instagram", label: "Xarxes · Instagram" },
-      { key: "whatsapp", label: "Xarxes · WhatsApp" },
-      { key: "facebook", label: "Xarxes · Facebook" },
-      { key: "pancartes", label: "Material imprès · pancartes" },
-      { key: "triptic", label: "Material imprès · tríptic" },
-      { key: "cartells", label: "Material imprès · cartells" },
-      { key: "puntLlibre", label: "Material imprès · punt de llibre" },
-      { key: "flaixos", label: "Vídeos · flaixos" },
-      { key: "videoPromocional", label: "Vídeos · vídeo promocional" },
-      { key: "premsa", label: "Mitjans locals · premsa" },
-      { key: "radio", label: "Mitjans locals · ràdio" },
-      { key: "tv", label: "Mitjans locals · TV" },
-      { key: "rodaPremsa", label: "Mitjans locals · roda de premsa" },
-      { key: "mes60", label: "Altres · +60" },
-      { key: "factoriaZona60", label: "Altres · Factoria Zona60" },
-      { key: "dadesFiresICEC", label: "Altres · Dades Fires ICEC" },
-    ],
-  },
-  {
-    containerId: "comunicacio-matrix",
-    groupName: "comunicacio",
-    options: CORRECTA,
-    rows: [
-      { key: "correus", label: "Correus electrònics" },
-      {
-        key: "calendariReunions",
-        label: "Calendari reunions presencials (preparació maig / valoració octubre)",
-      },
-      { key: "horariReunions", label: "Horari reunions (matins 8:00–9:00)" },
-    ],
-  },
-  {
-    containerId: "objectiusGenerals-matrix",
-    groupName: "objectiusGenerals",
-    options: SCALE,
-    rows: [
-      {
-        key: "promocioLlibre",
-        label: "Promocionar el llibre en català i estimular la lectura",
-      },
-      {
-        key: "visibilitat",
-        label: "Donar visibilitat a l’entramat literari de Terrassa i entorn",
-      },
-      { key: "xarxa", label: "Enfortir la xarxa literària" },
-      {
-        key: "dinamitzar",
-        label: "Dinamitzar llibreries i editorials locals",
-      },
-    ],
-  },
-  {
-    containerId: "objectiusAny-matrix",
-    groupName: "objectiusAny",
-    options: SI_NO,
-    rows: [
-      { key: "activitatsInteressants", label: "Les activitats han estat interessants?" },
-      {
-        key: "colloquiObjectius",
-        label:
-          "El col·loqui de presentació i la taula de llibreters van respondre als objectius?",
-      },
-    ],
-  },
-  {
-    containerId: "calendari-matrix",
-    groupName: "calendari",
-    options: SI_NO,
-    rows: [
-      { key: "rodaPremsa", label: "Roda de premsa: 1a setmana de setembre" },
-      { key: "presentacio", label: "Presentació: mitjans de setembre" },
-      {
-        key: "activitatsAnnexes",
-        label: "Activitats annexes: des de la roda fins al dia de la Fira",
-      },
-      { key: "diaFira", label: "Dia de la Fira: 1r dissabte d’octubre" },
-    ],
-  },
-  {
-    containerId: "presentacio-matrix",
-    groupName: "presentacio",
-    options: SI_NO,
-    rows: [
-      {
-        key: "lloc",
-        label: "Lloc (sala petita Cinema Catalunya) adequat?",
-      },
-      { key: "durada", label: "Durada adient?" },
-      { key: "intervencions", label: "Intervencions interessants?" },
-    ],
-  },
-  {
-    containerId: "activitatsAnnexes-matrix",
-    groupName: "activitatsAnnexes",
-    options: SCALE,
-    rows: [
-      { key: "nombre", label: "Nombre d’activitats" },
-      { key: "expectatives", label: "Assoliment d’expectatives" },
-      { key: "public", label: "Participació del públic" },
-    ],
-  },
-  {
-    containerId: "organitzacioDia-matrix",
-    groupName: "organitzacioDia",
-    options: ORGA,
-    rows: [
-      { key: "horari", label: "Horari (muntar, desmuntar, atenció)" },
-      { key: "emplacament", label: "Emplaçament Raval de Montserrat" },
-      { key: "nombreParades", label: "Nombre de parades" },
-      { key: "distribucioParades", label: "Distribució de parades" },
-      { key: "cartells", label: "Cartells identificatius" },
-      {
-        key: "escenaris",
-        label: "Escenaris (atri Ajuntament i tarima Mercat)",
-      },
-      { key: "panells", label: "Panells informatius (5 entrades)" },
-      { key: "xarxaElectrica", label: "Xarxa elèctrica" },
-      { key: "equipSo", label: "Equip de so" },
-    ],
-  },
-  {
-    containerId: "funcionament-matrix",
-    groupName: "funcionament",
-    options: SCALE,
-    rows: [
-      {
-        key: "interesActivitats",
-        label: "Interès de les activitats als dos escenaris",
-      },
-      {
-        key: "convidats",
-        label: "Convidats d’altres territoris",
-      },
-      { key: "afluencia", label: "Afluència de públic" },
-      {
-        key: "autors",
-        label: "Participació d’autors / signatures",
-      },
-      {
-        key: "promocioEntitat",
-        label: "Importància per a la promoció de l’entitat",
-      },
-      {
-        key: "valoracioEconomica",
-        label: "Valoració econòmica de la venda de llibres",
-      },
-    ],
-  },
-];
+const form = document.getElementById("enquesta") as HTMLFormElement;
+const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+const activitatsBlock = document.getElementById("activitatsAnnexes-block") as HTMLElement;
 
 function renderMatrices() {
   for (const matrix of MATRICES) {
-    const root = document.getElementById(matrix.containerId);
+    const root = document.getElementById(`${matrix.group}-matrix`);
     if (!root) continue;
     root.replaceChildren();
 
@@ -191,14 +50,11 @@ function renderMatrices() {
       options.setAttribute("aria-label", row.label);
 
       for (const opt of matrix.options) {
-        const id = `${matrix.groupName}-${row.key}-${opt}`;
         const lab = document.createElement("label");
         const input = document.createElement("input");
         input.type = "radio";
-        input.name = `${matrix.groupName}.${row.key}`;
+        input.name = `${matrix.group}.${row.key}`;
         input.value = opt;
-        input.id = id;
-        lab.htmlFor = id;
         lab.appendChild(input);
         lab.appendChild(document.createTextNode(` ${opt}`));
         options.appendChild(lab);
@@ -210,33 +66,16 @@ function renderMatrices() {
   }
 }
 
-function readMatrix(groupName: string): Record<string, string> {
-  const out: Record<string, string> = {};
-  const inputs = document.querySelectorAll<HTMLInputElement>(
-    `input[type="radio"][name^="${groupName}."]:checked`,
-  );
-  for (const input of inputs) {
-    const key = input.name.slice(groupName.length + 1);
-    if (key) out[key] = input.value;
-  }
-  return out;
-}
-
 function radioValue(name: string): string | undefined {
-  const el = document.querySelector<HTMLInputElement>(
-    `input[name="${name}"]:checked`,
-  );
-  return el?.value;
+  return form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value;
 }
 
 function textValue(id: string): string {
-  const el = document.getElementById(id) as HTMLTextAreaElement | HTMLInputElement | null;
-  return el?.value.trim() ?? "";
+  return (document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement).value.trim();
 }
 
 function setStatus(message: string, kind: "error" | "ok" | "info") {
-  const box = document.getElementById("form-status");
-  if (!box) return;
+  const box = document.getElementById("form-status")!;
   box.hidden = !message;
   box.textContent = message;
   box.className = "form-status";
@@ -244,89 +83,133 @@ function setStatus(message: string, kind: "error" | "ok" | "info") {
   if (kind === "ok") box.classList.add("form-status--ok");
 }
 
-function collectPayload() {
-  const collectiu = radioValue("collectiu");
-  const email = textValue("email");
-  const privacyConsent = (
-    document.getElementById("privacyConsent") as HTMLInputElement | null
-  )?.checked;
+function activitatsVisible(): boolean {
+  return PARTICIPACIO_AMB_ACTIVITATS.includes(radioValue("participacio") ?? "");
+}
 
+function collectPayload(): Record<string, unknown> {
   const payload: Record<string, unknown> = {
-    collectiu,
-    email,
-    privacyConsent: privacyConsent === true,
+    collectiu: radioValue("collectiu"),
+    email: textValue("email"),
+    privacyConsent: (document.getElementById("privacyConsent") as HTMLInputElement).checked,
   };
-
   const participacio = radioValue("participacio");
   if (participacio) payload.participacio = participacio;
 
-  const mapFields: [string, string][] = [
-    ["difusio", "difusio"],
-    ["comunicacio", "comunicacio"],
-    ["objectiusGenerals", "objectiusGenerals"],
-    ["objectiusAny", "objectiusAny"],
-    ["calendari", "calendari"],
-    ["presentacio", "presentacio"],
-    ["activitatsAnnexes", "activitatsAnnexes"],
-    ["organitzacioDia", "organitzacioDia"],
-    ["funcionament", "funcionament"],
-  ];
-
-  for (const [group, key] of mapFields) {
-    const map = readMatrix(group);
-    if (Object.keys(map).length) payload[key] = map;
+  const skipActivitats = !activitatsVisible();
+  for (const m of MATRICES) {
+    if (skipActivitats && m.group === ACTIVITATS_GROUP) continue;
+    const map: Record<string, string> = {};
+    for (const row of m.rows) {
+      const v = radioValue(`${m.group}.${row.key}`);
+      if (v) map[row.key] = v;
+    }
+    if (Object.keys(map).length) payload[m.group] = map;
   }
-
-  const texts = [
-    "difusioPropostes",
-    "comunicacioPropostes",
-    "objectiusAnyPropostes",
-    "calendariPropostes",
-    "presentacioSuggeriments",
-    "activitatsAnnexesAltres",
-    "organitzacioDiaPropostes",
-    "funcionamentSuggeriments",
-    "financament",
-    "continuitatFira",
-    "continuitatParticipacio",
-    "altresComentaris",
-  ] as const;
-
-  for (const id of texts) {
+  for (const id of TEXT_FIELDS) {
+    if (skipActivitats && id === ACTIVITATS_TEXT) continue;
     const v = textValue(id);
     if (v) payload[id] = v;
   }
-
   return payload;
 }
 
-function lockForm(closedMessage: string) {
-  const form = document.getElementById("enquesta") as HTMLFormElement | null;
-  const banner = document.getElementById("status-banner");
-  const message = document.getElementById("status-message");
-  if (form) {
-    form.classList.add("is-closed");
-    form.setAttribute("aria-disabled", "true");
-    for (const el of form.elements) {
-      if (el instanceof HTMLElement && "disabled" in el) {
-        (el as HTMLInputElement).disabled = true;
+/* ---------- Draft persistence ---------- */
+
+function saveDraft() {
+  const draft: Record<string, string | boolean> = {};
+  for (const el of form.elements) {
+    if (el instanceof HTMLInputElement) {
+      if (el.type === "radio") {
+        if (el.checked) draft[el.name] = el.value;
+      } else if (el.type === "checkbox") {
+        draft[el.name] = el.checked;
+      } else if (el.value) {
+        draft[el.name] = el.value;
       }
+    } else if (el instanceof HTMLTextAreaElement && el.value) {
+      draft[el.name] = el.value;
     }
   }
-  if (banner && message) {
-    banner.hidden = false;
-    message.textContent = closedMessage;
+  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+}
+
+function restoreDraft() {
+  let draft: Record<string, string | boolean>;
+  try {
+    draft = JSON.parse(localStorage.getItem(DRAFT_KEY) ?? "{}");
+  } catch {
+    return;
+  }
+  for (const el of form.elements) {
+    if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement)) continue;
+    const v = draft[el.name];
+    if (v === undefined) continue;
+    if (el instanceof HTMLInputElement && el.type === "radio") el.checked = el.value === v;
+    else if (el instanceof HTMLInputElement && el.type === "checkbox") el.checked = v === true;
+    else el.value = String(v);
   }
 }
 
+/* ---------- Progress + conditional section ---------- */
+
+function refresh() {
+  activitatsBlock.hidden = !activitatsVisible();
+
+  const questions: boolean[] = [
+    !!radioValue("collectiu"),
+    !!textValue("email"),
+    !!radioValue("participacio"),
+  ];
+  for (const m of MATRICES) {
+    if (m.group === ACTIVITATS_GROUP && activitatsBlock.hidden) continue;
+    for (const row of m.rows) questions.push(!!radioValue(`${m.group}.${row.key}`));
+  }
+  const done = questions.filter(Boolean).length;
+  (document.getElementById("progress-bar") as HTMLElement).style.width =
+    `${Math.round((done / questions.length) * 100)}%`;
+}
+
+/* ---------- Access code + status ---------- */
+
+function readAccessCode(): string {
+  const fromUrl = new URL(location.href).searchParams.get("c")?.trim();
+  if (fromUrl) {
+    localStorage.setItem(CODE_KEY, fromUrl);
+    return fromUrl;
+  }
+  return localStorage.getItem(CODE_KEY) ?? "";
+}
+
+function lockForm(message: string) {
+  form.classList.add("is-closed");
+  form.setAttribute("aria-disabled", "true");
+  for (const el of form.elements) {
+    (el as HTMLInputElement).disabled = true;
+  }
+  const banner = document.getElementById("status-banner")!;
+  banner.hidden = false;
+  document.getElementById("status-message")!.textContent = message;
+}
+
+const accessCode = readAccessCode();
+let turnstileSiteKey = "";
+
 async function loadStatus() {
   try {
-    const res = await fetch("/api/status");
+    const res = await fetch(`/api/status?c=${encodeURIComponent(accessCode)}`);
     if (!res.ok) return;
-    const data = (await res.json()) as { open?: boolean };
+    const data = (await res.json()) as {
+      open?: boolean;
+      codeValid?: boolean;
+      turnstileSiteKey?: string;
+    };
+    turnstileSiteKey = data.turnstileSiteKey ?? "";
     if (data.open === false) {
+      lockForm("L’enquesta està tancada. Ja no s’accepten més respostes. Gràcies!");
+    } else if (data.codeValid === false) {
       lockForm(
-        "L’enquesta està tancada. Ja no s’accepten més respostes. Gràcies!",
+        "Per respondre l’enquesta cal obrir l’enllaç que us ha enviat l’organització de la Fira.",
       );
     }
   } catch {
@@ -334,71 +217,104 @@ async function loadStatus() {
   }
 }
 
+/* ---------- Turnstile ---------- */
+
+let widgetId: string | undefined;
+let pendingToken: ((token: string) => void) | undefined;
+let pendingError: ((err: Error) => void) | undefined;
+
+async function getTurnstileToken(): Promise<string> {
+  for (let i = 0; !window.turnstile && i < 50; i++) {
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  const ts = window.turnstile;
+  if (!ts || !turnstileSiteKey) throw new Error("turnstile_unavailable");
+
+  const token = new Promise<string>((resolve, reject) => {
+    pendingToken = resolve;
+    pendingError = reject;
+  });
+  if (widgetId === undefined) {
+    widgetId = ts.render(document.getElementById("turnstile")!, {
+      sitekey: turnstileSiteKey,
+      execution: "execute",
+      appearance: "interaction-only",
+      callback: (t: string) => pendingToken?.(t),
+      "error-callback": () => pendingError?.(new Error("turnstile_error")),
+    });
+  } else {
+    ts.reset(widgetId);
+  }
+  ts.execute(widgetId);
+  return token;
+}
+
+/* ---------- Submit ---------- */
+
 async function onSubmit(event: Event) {
   event.preventDefault();
-  const form = event.currentTarget as HTMLFormElement;
-  const btn = document.getElementById("submit-btn") as HTMLButtonElement | null;
 
   if (!form.reportValidity()) {
     setStatus("Reviseu els camps obligatoris abans d’enviar.", "error");
     return;
   }
 
-  const payload = collectPayload();
   setStatus("S’està enviant la valoració…", "info");
-  if (btn) btn.disabled = true;
+  submitBtn.disabled = true;
+
+  let turnstileToken: string;
+  try {
+    turnstileToken = await getTurnstileToken();
+  } catch {
+    setStatus(
+      "No s’ha pogut carregar la verificació antispam. Recarregueu la pàgina i torneu-ho a provar.",
+      "error",
+    );
+    submitBtn.disabled = false;
+    return;
+  }
 
   try {
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...collectPayload(), accessCode, turnstileToken }),
     });
-    const data = (await res.json().catch(() => ({}))) as {
-      error?: string;
-      ok?: boolean;
-    };
-
-    if (res.status === 409) {
-      setStatus(
-        data.error ??
-          "Ja hi ha una resposta amb aquest correu. Només se’n permet una.",
-        "error",
-      );
-      if (btn) btn.disabled = false;
-      return;
-    }
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
 
     if (res.status === 403) {
-      lockForm(
-        data.error ??
-          "L’enquesta està tancada. Ja no s’accepten més respostes.",
-      );
+      lockForm(data.error ?? "L’enquesta està tancada. Ja no s’accepten més respostes.");
       setStatus(data.error ?? "L’enquesta està tancada.", "error");
       return;
     }
-
     if (!res.ok) {
       setStatus(data.error ?? "No s’ha pogut enviar. Torneu-ho a provar.", "error");
-      if (btn) btn.disabled = false;
+      submitBtn.disabled = false;
       return;
     }
 
+    localStorage.removeItem(DRAFT_KEY);
     form.hidden = true;
-    const thanks = document.getElementById("thanks");
-    if (thanks) {
-      thanks.hidden = false;
-      thanks.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    document.getElementById("progress")!.hidden = true;
+    const thanks = document.getElementById("thanks")!;
+    thanks.hidden = false;
+    thanks.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch {
-    setStatus(
-      "Error de connexió. Comproveu la xarxa i torneu-ho a provar.",
-      "error",
-    );
-    if (btn) btn.disabled = false;
+    setStatus("Error de connexió. Comproveu la xarxa i torneu-ho a provar.", "error");
+    submitBtn.disabled = false;
   }
 }
 
 renderMatrices();
+restoreDraft();
+refresh();
 void loadStatus();
-document.getElementById("enquesta")?.addEventListener("submit", onSubmit);
+form.addEventListener("input", () => {
+  saveDraft();
+  refresh();
+});
+form.addEventListener("change", () => {
+  saveDraft();
+  refresh();
+});
+form.addEventListener("submit", onSubmit);

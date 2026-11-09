@@ -478,3 +478,50 @@ textarea {
     animation: none;
   }
 }
+
+.progress {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 4px;
+  background: var(--paper-deep);
+}
+
+.progress__bar {
+  height: 100%;
+  width: 0;
+  background: var(--leaf);
+  transition: width 0.3s ease;
+}
+
+.privacy {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.privacy caption {
+  text-align: left;
+  font-weight: 650;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.privacy th,
+.privacy td {
+  padding: 0.45rem 0.5rem;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.privacy th {
+  width: 8.5rem;
+  font-weight: 600;
+}
+
+#turnstile:empty {
+  display: none;
+}

@@ -5,6 +5,11 @@ Enquesta pública de valoració de la **IV Edició de la Fira del Llibre en Cata
 - UI en català amb branding de [firallibrecatalaterrassa.cat](https://firallibrecatalaterrassa.cat/)
 - Una resposta per correu (D1, índex únic)
 - Obligatoris: col·lectiu, correu, consentiment de privacitat
+- Accés amb codi comú a l’enllaç (`https://enquesta-fira.agumaik.tech/?c=CODI`, secret `ACCESS_CODE`)
+- Antispam amb Cloudflare Turnstile (invisible); validació estricta de totes les respostes al Worker
+- Esborrany automàtic al navegador (`localStorage`); la secció 8 només apareix si s’organitzen activitats
+- Fonts i imatges servides des del mateix domini; capçaleres de seguretat a `public/_headers`
+- Conservació: les respostes de més de 2 anys s’esborren cada dia (Cron Trigger)
 - Tancament manual amb la variable `SURVEY_OPEN`
 - Destí de producció: `enquesta-fira.agumaik.tech` (compte Cloudflare **agumaik**)
 
@@ -17,19 +22,21 @@ Enquesta pública de valoració de la **IV Edició de la Fira del Llibre en Cata
 
 ```bash
 npm install
+cp .dev.vars.example .dev.vars   # claus de prova de Turnstile, codi i contrasenya «prova»
 npm run build
 npm run db:migrate:local
 npm run dev
 ```
 
-Obre `http://127.0.0.1:3847`.
+Obre `http://127.0.0.1:3847/?c=prova`.
 
 El Worker serveix els assets estàtics i l’API:
 
 | Ruta | Descripció |
 |------|------------|
-| `GET /api/status` | `{ open: boolean }` |
-| `POST /api/submit` | Desa una resposta a D1 |
+| `GET /api/status?c=CODI` | `{ open, codeValid, turnstileSiteKey }` |
+| `POST /api/submit` | Desa una resposta a D1 (requereix `accessCode` i `turnstileToken`) |
+| `GET /admin/export.csv` | CSV de totes les respostes (autenticació bàsica, contrasenya `ADMIN_PASSWORD`, qualsevol usuari) |
 
 ### Tancar l’enquesta
 
@@ -64,7 +71,15 @@ Valors que mantenen l’enquesta **oberta**: `true`, `1`, `yes`, `open`. Qualsev
 
    Copieu l’`database_id` resultant a `wrangler.toml` (substituiu el placeholder).
 
-3. Apliqueu migracions remotes i desplegueu:
+3. Configureu els secrets (el widget de Turnstile és al compte agumaik, nom `enquesta-fira`):
+
+   ```bash
+   npx wrangler secret put TURNSTILE_SECRET
+   npx wrangler secret put ACCESS_CODE
+   npx wrangler secret put ADMIN_PASSWORD
+   ```
+
+4. Apliqueu migracions remotes i desplegueu:
 
    ```bash
    npm run build
@@ -72,11 +87,7 @@ Valors que mantenen l’enquesta **oberta**: `true`, `1`, `yes`, `open`. Qualsev
    npm run deploy
    ```
 
-4. Domini personalitzat `enquesta-fira.agumaik.tech`:
-
-   - Descomenteu el bloc `routes` a `wrangler.toml`, **o**
-   - Dashboard → Worker `enquesta-fira` → Domains → afegiu `enquesta-fira.agumaik.tech`
-   - El DNS del zone `agumaik.tech` ha d’estar al mateix compte
+5. El domini `enquesta-fira.agumaik.tech` es configura sol amb `routes` a `wrangler.toml`.
 
 ## Dades
 
@@ -88,7 +99,7 @@ Taula D1 `responses`:
 - `payload` (JSON amb totes les respostes)
 - `created_at`
 
-No hi ha panell d’admin ni export CSV encara. Podeu consultar amb:
+Exporteu-les obrint `https://enquesta-fira.agumaik.tech/admin/export.csv` (CSV amb `;`, s’obre directament amb Excel o LibreOffice). També podeu consultar amb:
 
 ```bash
 npx wrangler d1 execute enquesta-fira-db --remote --command "SELECT id, email, collectiu, created_at FROM responses ORDER BY created_at DESC LIMIT 20"
