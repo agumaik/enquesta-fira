@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Enquesta de valoració de la IV Edició de la Fira del Llibre en Català a Terrassa."
+    />
+    <title>Enquesta · Fira del Llibre en Català a Terrassa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#enquesta">Salta al formulari</a>
+
+    <header class="hero" id="inici">
+      <div class="hero__media" aria-hidden="true">
+        <img
+          class="hero__cartell"
+          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2026/09/00-Cartell-26-din-A1-v4-1.jpg"
+          alt=""
+          width="1200"
+          height="1600"
+          decoding="async"
+          fetchpriority="high"
+        />
+        <div class="hero__veil"></div>
+      </div>
+      <div class="hero__content">
+        <img
+          class="hero__logo"
+          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2024/04/Logo_quadrat.png"
+          alt="Fira del Llibre en Català a Terrassa"
+          width="112"
+          height="112"
+        />
+        <p class="hero__brand">Fira del Llibre en Català a Terrassa</p>
+        <h1>Enquesta de valoració · IV Edició</h1>
+        <p class="hero__lead">
+          Acabada la IV Edició, demanem la vostra valoració per preparar el
+          proper any. Podeu respondre només els apartats on heu participat.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#enquesta">Comença l’enquesta</a>
+          <a
+            class="btn btn--ghost"
+            href="https://firallibrecatalaterrassa.cat/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Web de la Fira</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="status-banner" id="status-banner" hidden>
+        <p id="status-message"></p>
+      </section>
+
+      <form id="enquesta" class="survey" novalidate>
+        <div class="survey__intro">
+          <h2>La vostra valoració</h2>
+          <p>
+            Els camps amb <span class="req" aria-hidden="true">*</span> són
+            obligatoris. La resta són opcionals.
+          </p>
+        </div>
+
+        <fieldset class="block">
+          <legend>Identificació</legend>
+          <div class="field">
+            <span class="label" id="collectiu-label"
+              >A quin col·lectiu pertanyeu?
+              <span class="req">*</span></span
+            >
+            <div
+              class="choices"
+              role="radiogroup"
+              aria-labelledby="collectiu-label"
+            >
+              <label class="choice"
+                ><input type="radio" name="collectiu" value="Llibreries" required />
+                Llibreries</label
+              >
+              <label class="choice"
+                ><input type="radio" name="collectiu" value="Editorials" />
+                Editorials</label
+              >
+              <label class="choice"
+                ><input type="radio" name="collectiu" value="Entitats" />
+                Entitats</label
+              >
+            </div>
+          </div>
+          <div class="field">
+            <label for="email"
+              >Correu electrònic <span class="req">*</span></label
+            >
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              placeholder="nom@exemple.cat"
+            />
+            <p class="hint">Només es permet una resposta per correu.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend>1 · Participació</legend>
+          <div class="field">
+            <span class="label" id="participacio-label">Com heu participat?</span>
+            <div
+              class="choices choices--stack"
+              role="radiogroup"
+              aria-labelledby="participacio-label"
+            >
+              <label class="choice"
+                ><input type="radio" name="participacio" value="Paradista" />
+                Paradista</label
+              >
+              <label class="choice"
+                ><input
+                  type="radio"
+                  name="participacio"
+                  value="Paradista i organització d’activitats annexes"
+                />
+                Paradista i organització d’activitats annexes</label
+              >
+              <label class="choice"
+                ><input
+                  type="radio"
+                  name="participacio"
+                  value="Organització d’activitats annexes"
+                />
+                Organització d’activitats annexes</label
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="difusio">
+          <legend>2 · Difusió</legend>
+          <p class="block__note">Valoreu si la difusió ha estat suficient o insuficient.</p>
+          <div class="matrix" id="difusio-matrix"></div>
+          <div class="field">
+            <label for="difusioPropostes">Propostes de millora</label>
+            <textarea
+              id="difusioPropostes"
+              name="difusioPropostes"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="comunicacio">
+          <legend>3 · Comunicació interna</legend>
+          <p class="block__note">Valoreu si ha estat correcta o millorable.</p>
+          <div class="matrix" id="comunicacio-matrix"></div>
+          <div class="field">
+            <label for="comunicacioPropostes">Propostes</label>
+            <textarea
+              id="comunicacioPropostes"
+              name="comunicacioPropostes"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="objectiusGenerals">
+          <legend>4 · Objectius generals</legend>
+          <p class="block__note">Puntuació de l’1 (poc) al 5 (molt).</p>
+          <div class="matrix" id="objectiusGenerals-matrix"></div>
+        </fieldset>
+
+        <fieldset class="block" data-section="objectiusAny">
+          <legend>5 · Objectius d’aquest any</legend>
+          <p class="block__note">
+            Tema: jovent / ofici de llibreter. Responeu sí o no.
+          </p>
+          <div class="matrix" id="objectiusAny-matrix"></div>
+          <div class="field">
+            <label for="objectiusAnyPropostes">Propostes de nous objectius</label>
+            <textarea
+              id="objectiusAnyPropostes"
+              name="objectiusAnyPropostes"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="calendari">
+          <legend>6 · Calendari</legend>
+          <p class="block__note">Us sembla adequat el calendari? Sí / No.</p>
+          <div class="matrix" id="calendari-matrix"></div>
+          <div class="field">
+            <label for="calendariPropostes">Propostes</label>
+            <textarea
+              id="calendariPropostes"
+              name="calendariPropostes"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="presentacio">
+          <legend>7 · Presentació</legend>
+          <div class="matrix" id="presentacio-matrix"></div>
+          <div class="field">
+            <label for="presentacioSuggeriments">Suggeriments</label>
+            <textarea
+              id="presentacioSuggeriments"
+              name="presentacioSuggeriments"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="activitatsAnnexes">
+          <legend>8 · Activitats annexes</legend>
+          <p class="block__note">Puntuació de l’1 al 5.</p>
+          <div class="matrix" id="activitatsAnnexes-matrix"></div>
+          <div class="field">
+            <label for="activitatsAnnexesAltres">Altres aspectes</label>
+            <textarea
+              id="activitatsAnnexesAltres"
+              name="activitatsAnnexesAltres"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="organitzacioDia">
+          <legend>9 · Organització del dia de la Fira</legend>
+          <p class="block__note">
+            Nota: el temps va tancar al migdia. Valoreu cada aspecte.
+          </p>
+          <div class="matrix" id="organitzacioDia-matrix"></div>
+          <div class="field">
+            <label for="organitzacioDiaPropostes">Propostes</label>
+            <textarea
+              id="organitzacioDiaPropostes"
+              name="organitzacioDiaPropostes"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block" data-section="funcionament">
+          <legend>10 · Funcionament de la jornada</legend>
+          <p class="block__note">Puntuació de l’1 al 5.</p>
+          <div class="matrix" id="funcionament-matrix"></div>
+          <div class="field">
+            <label for="funcionamentSuggeriments">Suggeriments</label>
+            <textarea
+              id="funcionamentSuggeriments"
+              name="funcionamentSuggeriments"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend>11 · Finançament</legend>
+          <div class="field">
+            <label for="financament"
+              >Propostes d’altres vies de finançament
+              <span class="hint-inline"
+                >(hi ha 3 subvencions, insuficients)</span
+              ></label
+            >
+            <textarea
+              id="financament"
+              name="financament"
+              rows="4"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block">
+          <legend>12 · Altres</legend>
+          <div class="field">
+            <label for="continuitatFira"
+              >Importància de la continuïtat de la Fira</label
+            >
+            <textarea
+              id="continuitatFira"
+              name="continuitatFira"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="continuitatParticipacio"
+              >Continuïtat de la vostra participació</label
+            >
+            <textarea
+              id="continuitatParticipacio"
+              name="continuitatParticipacio"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="altresComentaris">Altres comentaris</label>
+            <textarea
+              id="altresComentaris"
+              name="altresComentaris"
+              rows="3"
+              maxlength="4000"
+            ></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="block block--consent">
+          <legend>Privacitat <span class="req">*</span></legend>
+          <div class="consent">
+            <label class="choice choice--consent">
+              <input
+                type="checkbox"
+                name="privacyConsent"
+                id="privacyConsent"
+                required
+              />
+              <span>
+                He llegit i accepto el tractament de les meves dades personals
+                (correu electrònic i respostes de l’enquesta) per part de
+                l’organització de la Fira del Llibre en Català a Terrassa, amb
+                la finalitat exclusiva de recollir valoracions de la IV Edició i
+                millorar les properes edicions. Les dades no es cediran a
+                tercers ni s’usaran amb finalitats comercials. Puc exercir els
+                drets d’accés, rectificació i supressió contactant
+                l’organització a través del web
+                <a
+                  href="https://firallibrecatalaterrassa.cat/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >firallibrecatalaterrassa.cat</a
+                >.
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-status" id="form-status" role="status" aria-live="polite" hidden></div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn--primary" id="submit-btn">
+            Envia la valoració
+          </button>
+        </div>
+      </form>
+
+      <section class="thanks" id="thanks" hidden>
+        <img
+          class="thanks__logo"
+          src="https://firallibrecatalaterrassa.cat/wp-content/uploads/2024/04/Logo_quadrat.png"
+          alt=""
+          width="88"
+          height="88"
+        />
+        <h2>Gràcies!</h2>
+        <p>
+          Hem rebut la vostra valoració. Ens ajuda a preparar la propera edició
+          de la Fira del Llibre en Català a Terrassa.
+        </p>
+        <a
+          class="btn btn--ghost"
+          href="https://firallibrecatalaterrassa.cat/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Torna a la web de la Fira</a
+        >
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        IV Edició · Fira del Llibre en Català a Terrassa ·
+        <a href="https://firallibrecatalaterrassa.cat/">firallibrecatalaterrassa.cat</a>
+      </p>
+    </footer>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

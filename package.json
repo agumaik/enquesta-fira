@@ -1,0 +1,21 @@
+{
+  "name": "enquesta-fira",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 3847",
+    "build": "vite build",
+    "deploy": "npm run build && wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply enquesta-fira-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply enquesta-fira-db --remote",
+    "typecheck": "tsc --noEmit",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261104.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "wrangler": "^4.45.3"
+  }
+}
