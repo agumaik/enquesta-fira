@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Informe · Enquesta Fira del Llibre en Català a Terrassa</title>
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body class="report">
+    <div class="report__toolbar">
+      <button type="button" class="btn btn--small btn--primary" id="print-btn" disabled>
+        Imprimeix o desa en PDF
+      </button>
+      <a class="btn btn--small btn--ghost" id="back-link" href="/admin/">Torna al panell</a>
+    </div>
+
+    <main class="report__page">
+      <header class="report__head">
+        <img src="/logo.png" alt="" width="64" height="64" />
+        <div>
+          <p class="report__brand">Fira del Llibre en Català a Terrassa</p>
+          <h1>Resultats de l’enquesta de valoració · IV Edició</h1>
+          <p class="report__meta" id="report-meta">Carregant…</p>
+        </div>
+      </header>
+      <div id="report-body"></div>
+      <footer class="report__foot">
+        Document intern de la Comissió de Llengua i Cultura del Consell Local de la República de
+        Terrassa. Conté opinions de les entitats participants: no el difongueu fora de l’organització.
+      </footer>
+    </main>
+
+    <script type="module" src="./report.ts"></script>
+  </body>
+</html>

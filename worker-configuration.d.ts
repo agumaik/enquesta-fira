@@ -7,5 +7,7 @@ interface Env {
   TURNSTILE_SITE_KEY: string;
   TURNSTILE_SECRET: string;
   ACCESS_CODE: string;
-  ADMIN_PASSWORD: string;
+  ACCESS_TEAM_DOMAIN: string;
+  ACCESS_AUD: string;
+  ACCESS_DEV_BYPASS_EMAIL?: string;
 }

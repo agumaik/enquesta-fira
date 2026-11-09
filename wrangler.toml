@@ -1,4 +1,6 @@
 name = "enquesta-fira"
+# Agumaik Tech; the shared wrangler login has access to several accounts.
+account_id = "19e33cdd557afd8547d2a00badcaee12"
 main = "src/worker.ts"
 compatibility_date = "2026-11-09"
 workers_dev = true
@@ -10,7 +12,7 @@ routes = [
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
-run_worker_first = ["/api/*", "/admin/*"]
+run_worker_first = ["/api/*", "/admin", "/admin/*"]
 
 [[d1_databases]]
 binding = "DB"
@@ -21,8 +23,11 @@ migrations_dir = "migrations"
 [vars]
 SURVEY_OPEN = "true"
 TURNSTILE_SITE_KEY = "0x4AAAAAAF5rkgDGzwXjcRm1"
+# Cloudflare Access app "Enquesta Fira · Administració" protecting /admin and /admin/*
+ACCESS_TEAM_DOMAIN = "firallibrecatalaterrassa.cloudflareaccess.com"
+ACCESS_AUD = "615cde7b1d780141526717ce46c930da5a12bf6ee3008e8b945b919b2cf56621"
 
-# Secrets (wrangler secret put …): TURNSTILE_SECRET, ACCESS_CODE, ADMIN_PASSWORD
+# Secrets (wrangler secret put …): TURNSTILE_SECRET, ACCESS_CODE
 
 # Daily purge of responses older than 2 years (retention promised in the privacy notice).
 [triggers]

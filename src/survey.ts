@@ -157,6 +157,80 @@ export const TEXT_FIELDS = [
   "altresComentaris",
 ] as const;
 
+export type TextField = (typeof TEXT_FIELDS)[number];
+
+export type SectionDef = {
+  title: string;
+  note?: string;
+  matrix?: string;
+  texts: readonly { key: TextField; label: string }[];
+};
+
+/** Section order, titles and free-text labels as shown in index.html (admin panel and report). */
+export const SECTIONS: readonly SectionDef[] = [
+  {
+    title: "2 · Difusió",
+    matrix: "difusio",
+    texts: [{ key: "difusioPropostes", label: "Propostes de millora" }],
+  },
+  {
+    title: "3 · Comunicació interna",
+    matrix: "comunicacio",
+    texts: [{ key: "comunicacioPropostes", label: "Propostes" }],
+  },
+  {
+    title: "4 · Objectius generals",
+    note: "Puntuació de l’1 (poc) al 5 (molt).",
+    matrix: "objectiusGenerals",
+    texts: [],
+  },
+  {
+    title: "5 · Objectius d’aquest any",
+    note: "Tema: jovent / ofici de llibreter.",
+    matrix: "objectiusAny",
+    texts: [{ key: "objectiusAnyPropostes", label: "Propostes de nous objectius" }],
+  },
+  {
+    title: "6 · Calendari",
+    matrix: "calendari",
+    texts: [{ key: "calendariPropostes", label: "Propostes" }],
+  },
+  {
+    title: "7 · Presentació",
+    matrix: "presentacio",
+    texts: [{ key: "presentacioSuggeriments", label: "Suggeriments" }],
+  },
+  {
+    title: "8 · Activitats annexes",
+    note: "Només qui ha organitzat activitats annexes. Puntuació de l’1 (poc) al 5 (molt).",
+    matrix: "activitatsAnnexes",
+    texts: [{ key: "activitatsAnnexesAltres", label: "Altres aspectes" }],
+  },
+  {
+    title: "9 · Organització del dia de la Fira",
+    matrix: "organitzacioDia",
+    texts: [{ key: "organitzacioDiaPropostes", label: "Propostes" }],
+  },
+  {
+    title: "10 · Funcionament de la jornada",
+    note: "Puntuació de l’1 (poc) al 5 (molt).",
+    matrix: "funcionament",
+    texts: [{ key: "funcionamentSuggeriments", label: "Suggeriments" }],
+  },
+  {
+    title: "11 · Finançament",
+    texts: [{ key: "financament", label: "Propostes d’altres vies de finançament" }],
+  },
+  {
+    title: "12 · Altres",
+    texts: [
+      { key: "continuitatFira", label: "Importància de la continuïtat de la Fira" },
+      { key: "continuitatParticipacio", label: "Continuïtat de la vostra participació" },
+      { key: "altresComentaris", label: "Altres comentaris" },
+    ],
+  },
+];
+
 export const TEXT_MAX = 4000;
 /** Upper bound for a legitimate request body (all texts full ≈ 50 KB of UTF-8). */
 export const MAX_BODY_BYTES = 64 * 1024;

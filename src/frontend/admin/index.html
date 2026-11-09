@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Resultats · Enquesta Fira del Llibre en Català a Terrassa</title>
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body class="admin">
+    <header class="topbar">
+      <a class="topbar__brand" href="/admin/">
+        <img src="/logo.png" alt="" width="40" height="40" />
+        <span>
+          <strong>Resultats de l’enquesta</strong>
+          <small>IV Edició · Fira del Llibre en Català a Terrassa</small>
+        </span>
+      </a>
+      <div class="topbar__actions">
+        <span class="topbar__viewer" id="viewer"></span>
+        <a class="btn btn--small btn--ghost" id="report-link" href="/admin/informe" target="_blank" rel="noopener"
+          >Informe per imprimir</a
+        >
+        <a class="btn btn--small btn--primary" href="/admin/export.csv">Descarrega CSV</a>
+      </div>
+    </header>
+
+    <main class="dash">
+      <div class="filters" id="filters" role="group" aria-label="Filtres"></div>
+      <p class="dash__status" id="status" role="status">Carregant respostes…</p>
+      <div id="content"></div>
+    </main>
+
+    <dialog class="drawer" id="drawer" aria-labelledby="drawer-title">
+      <div class="drawer__panel">
+        <div class="drawer__head">
+          <button type="button" class="linkish drawer__back" id="drawer-back" hidden>← Torna</button>
+          <h2 id="drawer-title"></h2>
+          <button type="button" class="drawer__close" id="drawer-close" aria-label="Tanca">×</button>
+        </div>
+        <div class="drawer__body" id="drawer-body"></div>
+      </div>
+    </dialog>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

@@ -1,3 +1,4 @@
+import { verifyAccessJwt } from "./access";
 import {
   MATRICES,
   MAX_BODY_BYTES,
@@ -11,10 +12,15 @@ export interface Env {
   ASSETS: Fetcher;
   SURVEY_OPEN: string;
   TURNSTILE_SITE_KEY: string;
+  /** Cloudflare Access team domain, e.g. `team.cloudflareaccess.com`. */
+  ACCESS_TEAM_DOMAIN: string;
+  /** Application Audience (AUD) tag of the Access app protecting /admin. */
+  ACCESS_AUD: string;
+  /** Local development only (.dev.vars): skip Access and act as this email. */
+  ACCESS_DEV_BYPASS_EMAIL?: string;
   /** Secrets */
   TURNSTILE_SECRET: string;
   ACCESS_CODE: string;
-  ADMIN_PASSWORD: string;
 }
 
 /** Responses are deleted this long after submission (privacy notice: 2 anys). */
@@ -167,17 +173,28 @@ async function handleSubmit(request: Request, env: Env): Promise<Response> {
   return json({ ok: true, id });
 }
 
-function adminAuthorized(request: Request, env: Env): boolean {
-  const header = request.headers.get("authorization") ?? "";
-  if (!header.startsWith("Basic ")) return false;
-  let decoded: string;
-  try {
-    decoded = atob(header.slice(6));
-  } catch {
-    return false;
-  }
-  const password = decoded.slice(decoded.indexOf(":") + 1);
-  return safeEqual(password, env.ADMIN_PASSWORD ?? "");
+/** Email of the Access-authenticated admin, or null. */
+async function adminViewer(request: Request, env: Env): Promise<string | null> {
+  if (env.ACCESS_DEV_BYPASS_EMAIL) return env.ACCESS_DEV_BYPASS_EMAIL;
+  return verifyAccessJwt(
+    request.headers.get("cf-access-jwt-assertion"),
+    env.ACCESS_TEAM_DOMAIN,
+    env.ACCESS_AUD,
+  );
+}
+
+async function handleResponses(env: Env, viewer: string): Promise<Response> {
+  const { results } = await env.DB.prepare(
+    "SELECT id, created_at, payload FROM responses ORDER BY created_at DESC",
+  ).all<{ id: string; created_at: string; payload: string }>();
+  return json({
+    viewer,
+    responses: results.map((r) => ({
+      id: r.id,
+      createdAt: r.created_at,
+      payload: JSON.parse(r.payload),
+    })),
+  });
 }
 
 function csvCell(v: unknown): string {
@@ -237,17 +254,25 @@ export default {
       return json({ error: "No trobat." }, 404);
     }
 
-    if (url.pathname === "/admin/export.csv") {
-      if (!adminAuthorized(request, env)) {
-        return new Response("Cal autenticació.", {
-          status: 401,
-          headers: {
-            "www-authenticate": 'Basic realm="Enquesta Fira", charset="UTF-8"',
-            "cache-control": "no-store",
-          },
+    if (url.pathname === "/admin" || url.pathname.startsWith("/admin/")) {
+      const viewer = await adminViewer(request, env);
+      if (!viewer) {
+        return new Response("Accés restringit.", {
+          status: 403,
+          headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" },
         });
       }
-      return handleExport(env);
+      if (url.pathname === "/admin/api/responses" && request.method === "GET") {
+        return handleResponses(env, viewer);
+      }
+      if (url.pathname === "/admin/export.csv" && request.method === "GET") {
+        return handleExport(env);
+      }
+      if (url.pathname.startsWith("/admin/api/")) {
+        return json({ error: "No trobat." }, 404);
+      }
+      // Admin pages (dist/admin/*.html); they hold no data, only the client code.
+      return env.ASSETS.fetch(request);
     }
 
     return env.ASSETS.fetch(request);
