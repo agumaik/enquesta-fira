@@ -12,7 +12,7 @@ run_worker_first = ["/api/*"]
 [[d1_databases]]
 binding = "DB"
 database_name = "enquesta-fira-db"
-database_id = "00000000-0000-0000-0000-000000000001"
+database_id = "bf0a6064-459f-46d8-9ee0-319182ac64cf"
 migrations_dir = "migrations"
 
 [vars]
